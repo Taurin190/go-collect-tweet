@@ -11,25 +11,18 @@ type TwitterSecret struct {
 	AccessSecret string `JSON:"AccessSecret"`
 }
 
-func loadEnv() {
-    err := godotenv.Load()
-    if err != nil {
-        log.Fatal("Error loading .env file")
-    }
-}
-
 func loadConfig() TwitterSecret{
 	
 }
 
-func getTwitterApi() *anaconda.TwitterApi {
-    anaconda.SetConsumerKey(os.Getenv("CONSUMER_KEY"))
-    anaconda.SetConsumerSecret(os.Getenv("CONSUMER_SECRET"))
-    return anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_TOKEN_SECRET"))
+func getTwitterApi(secret TwitterSecret) *anaconda.TwitterApi {
+    anaconda.SetConsumerKey(secret("CONSUMER_KEY"))
+    anaconda.SetConsumerSecret(secret("CONSUMER_SECRET"))
+    return anaconda.NewTwitterApi(secret("ACCESS_TOKEN"), secret("ACCESS_TOKEN_SECRET"))
 }
 
 func GetTweetData() string {
-	loadEnv()
+	tweetConfig := loadConfig()
     api := getTwitterApi()
 	v := url.Values{}
     v.Set("count", "30")
