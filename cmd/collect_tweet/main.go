@@ -2,9 +2,12 @@ package main
 
 import (
 	"os"
-	"github.com/Taurin190/go-collect-tweet"
+	"fmt"
+	"../../../go-collect-tweet"
 )
 
 func main() {
+	tweet := collect_tweet.GetTweetData()
+	fmt.Println(tweet)
 	os.Exit(1)
 }
