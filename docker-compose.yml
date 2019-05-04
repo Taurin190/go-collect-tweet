@@ -1,6 +1,6 @@
 version: '3'
 services:
-  db:
+  mongo:
     container_name: "tw-mongo"
     image: mongo
     ports: 
@@ -8,4 +8,4 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "root"
-      MONGO_INITDB_DATABASE: "tweet"
+      MONGO_INITDB_DATABASE: "twitter"
