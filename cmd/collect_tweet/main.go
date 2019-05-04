@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	tweet := collect_tweet.GetTweetData()
+	tweet := collect_tweet.Exec()
 	fmt.Println(tweet)
 	os.Exit(1)
 }
