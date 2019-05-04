@@ -6,7 +6,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-func UpsertTweet (tweets []anaconda.Tweet, info *mgo.DialInfo) (string, error){
+func InsertTweet (tweets []anaconda.Tweet, info *mgo.DialInfo) (string, error){
 	session, err := mgo.DialWithInfo(info)
 	defer session.Close()
 	db := session.DB(info.Database)
