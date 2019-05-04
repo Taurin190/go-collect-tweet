@@ -6,12 +6,12 @@ import (
 )
 
 func Test_LoadConfig(t *testing.T) {
-	s, err := LoadConfig("./secret/twitter.conf.test")
+	s, err := LoadConfig("./conf/twitter.conf.test")
 	if err != nil {
 		t.Errorf("LoadConfig($directory_path) has some error to load")
 	}
 	var in, expected string
-	in = "./secret/twitter.conf.test"
+	in = "./conf/twitter.conf.test"
 	expected = "ConsumerKey"
 	fmt.Println(s.ConsumerKey)
 	if s.ConsumerKey != expected {

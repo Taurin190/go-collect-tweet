@@ -46,7 +46,7 @@ func GetTweetData(api *anaconda.TwitterApi) ([]anaconda.Tweet, error) {
 }
 
 func Exec() ([]anaconda.Tweet, error) {
-	tweetConfig, err := LoadConfig("./secret/twitter.conf")
+	tweetConfig, err := LoadConfig("./conf/twitter.conf")
 	if err != nil {
 		return nil, err
 	}

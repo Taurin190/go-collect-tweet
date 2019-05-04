@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 		os.Exit(0)
 	}
-	results, err := collect_tweet.UpsertTweet(tweets, info)
+	results, err := collect_tweet.InsertTweet(tweets, info)
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
