@@ -2,7 +2,6 @@ package collect_tweet
 
 import (
 	"log"
-	"fmt"
 	"net/url"
 	"encoding/json"
 	"io/ioutil"
@@ -16,16 +15,17 @@ type TwitterSecret struct {
 	AccessSecret string `JSON:"AccessSecret"`
 }
 
-func LoadConfig(path string) TwitterSecret{
+func LoadConfig(path string) (TwitterSecret, error) {
 	var tweetConfig TwitterSecret
 	bytes, err := ioutil.ReadFile(path)
     if err != nil {
         log.Fatal(err)
+		return tweetConfig, err
     }
     if err := json.Unmarshal(bytes, &tweetConfig); err != nil {
         log.Fatal(err)
     }
-	return tweetConfig
+	return tweetConfig, err
 }
 
 func getTwitterApi(secret TwitterSecret) *anaconda.TwitterApi {
@@ -34,21 +34,22 @@ func getTwitterApi(secret TwitterSecret) *anaconda.TwitterApi {
     return anaconda.NewTwitterApi(secret.AccessToken, secret.AccessSecret)
 }
 
-func GetTweetData(api *anaconda.TwitterApi) string {
+func GetTweetData(api *anaconda.TwitterApi) ([]anaconda.Tweet, error) {
 	v := url.Values{}
     v.Set("count", "30")
     searchResult, err := api.GetSearch("golang", v)
 	if err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
-    for _, tweet := range searchResult.Statuses {
-        fmt.Println(tweet.Text)
-    }
-	return ""
+	return searchResult.Statuses, nil
 }
 
-func Exec() string {
-	tweetConfig := LoadConfig("./secret/twitter.conf")
+func Exec() ([]anaconda.Tweet, error) {
+	tweetConfig, err := LoadConfig("./secret/twitter.conf")
+	if err != nil {
+		return nil, err
+	}
     api := getTwitterApi(tweetConfig)
 	return GetTweetData(api)
 }
