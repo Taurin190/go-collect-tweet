@@ -8,26 +8,6 @@ import (
 	"github.com/ChimeraCoder/anaconda"
 )
 
-type TwitterSecret struct {
-	ConsumerKey string `JSON:"ConsumerKey"`
-	ConsumerSecret string `JSON:"ConsumerSecret"`
-	AccessToken string `JSON:"AccessToken"`
-	AccessSecret string `JSON:"AccessSecret"`
-}
-
-func LoadConfig(path string) (TwitterSecret, error) {
-	var tweetConfig TwitterSecret
-	bytes, err := ioutil.ReadFile(path)
-    if err != nil {
-        log.Fatal(err)
-		return tweetConfig, err
-    }
-    if err := json.Unmarshal(bytes, &tweetConfig); err != nil {
-        log.Fatal(err)
-    }
-	return tweetConfig, err
-}
-
 func getTwitterApi(secret TwitterSecret) *anaconda.TwitterApi {
     anaconda.SetConsumerKey(secret.ConsumerKey)
     anaconda.SetConsumerSecret(secret.ConsumerSecret)
@@ -46,10 +26,10 @@ func GetTweetData(api *anaconda.TwitterApi) ([]anaconda.Tweet, error) {
 }
 
 func Exec() ([]anaconda.Tweet, error) {
-	tweetConfig, err := LoadConfig("./conf/twitter.conf")
+	tweetSecret, err := GetTwitterSecret()
 	if err != nil {
 		return nil, err
 	}
-    api := getTwitterApi(tweetConfig)
+    api := getTwitterApi(tweetSecret)
 	return GetTweetData(api)
 }

@@ -4,21 +4,16 @@ import (
 	"os"
 	"fmt"
 	"log"
-	"time"
 	"../../../go-collect-tweet"
-	"gopkg.in/mgo.v2"
 )
 
 func main() {
-	info := &mgo.DialInfo{
-        Addrs:    []string{"localhost"},
-        Timeout:  60 * time.Second,
-        Database: "twitter",
-        Username: "root",
-        Password: "root",
-    }
-
 	tweets, err := collect_tweet.Exec()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(0)
+	}
+	info, err := collect_tweet.GetMongoInfo()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(0)
