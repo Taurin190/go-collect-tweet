@@ -3,13 +3,13 @@ package collect_tweet
 import (
 	"log"
 	"github.com/ChimeraCoder/anaconda"
-	"github.com/globalsign/mgo"
+	"gopkg.in/mgo.v2"
 )
 
-func UpsertTweet (tweets []anaconda.Tweet, mongo_host string) (string, error){
-	session, err := mgo.Dial("mongodb://localhost/twitter")
+func UpsertTweet (tweets []anaconda.Tweet, info *mgo.DialInfo) (string, error){
+	session, err := mgo.DialWithInfo(info)
 	defer session.Close()
-	db := session.DB("test")
+	db := session.DB(info.Database)
 	if err != nil {
 		log.Fatal(err)
 		return "", err

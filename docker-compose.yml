@@ -3,8 +3,12 @@ services:
   mongo:
     container_name: "tw-mongo"
     image: mongo
+    restart: always
+    privileged: true
     ports: 
     - "27017:27017"
+    volumes:
+    - ./mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     environment:
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "root"
