@@ -8,23 +8,7 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-type TwitterSecret struct {
-	ConsumerKey string `JSON:"ConsumerKey"`
-	ConsumerSecret string `JSON:"ConsumerSecret"`
-	AccessToken string `JSON:"AccessToken"`
-	AccessSecret string `JSON:"AccessSecret"`
-}
-
-type MongoConf struct {
-	hostname string `JSON:"hostname"`
-	database string `JSON:"database"`
-	collection string `JSON:"collection"`
-	username string `JSON:"username"`
-	password string `JSON:"password"`
-}
-
-func GetTwitterSecret() (TwitterSecret, error) {
-	path := "./conf/twitter.conf"
+func GetTwitterSecret(path string) (TwitterSecret, error) {
 	var twitterSecret TwitterSecret
 	bytes, err := ioutil.ReadFile(path)
     if err != nil {
@@ -37,8 +21,7 @@ func GetTwitterSecret() (TwitterSecret, error) {
 	return twitterSecret, err
 }
 
-func getMongoConf() (MongoConf, error) {
-	path := "./conf/mongo.conf"
+func getMongoConf(path string) (MongoConf, error) {
 	var conf MongoConf
 	bytes, err := ioutil.ReadFile(path)
     if err != nil {
@@ -51,8 +34,8 @@ func getMongoConf() (MongoConf, error) {
 	return conf, err
 }
 
-func GetMongoInfo() (*mgo.DialInfo, error) {
-	conf, err := getMongoConf()
+func GetMongoInfo(config_path string) (*mgo.DialInfo, error) {
+	conf, err := getMongoConf(config_path)
 	if err != nil {
 		return nil, err
 	}

@@ -3,8 +3,6 @@ package collect_tweet
 import (
 	"log"
 	"net/url"
-	"encoding/json"
-	"io/ioutil"
 	"github.com/ChimeraCoder/anaconda"
 )
 
@@ -25,8 +23,8 @@ func GetTweetData(api *anaconda.TwitterApi) ([]anaconda.Tweet, error) {
 	return searchResult.Statuses, nil
 }
 
-func Exec() ([]anaconda.Tweet, error) {
-	tweetSecret, err := GetTwitterSecret()
+func Exec(config_path string) ([]anaconda.Tweet, error) {
+	tweetSecret, err := GetTwitterSecret(config_path)
 	if err != nil {
 		return nil, err
 	}
