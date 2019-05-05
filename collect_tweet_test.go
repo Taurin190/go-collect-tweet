@@ -2,34 +2,36 @@ package collect_tweet
 
 import (
 	"testing"
-	// "fmt"
+	"github.com/stretchr/testify/assert"
 )
 
-func Test_GetTwitterSecret(t *testing.T) {
-	// s, err := GetTwitterSecret("./conf/twitter.conf.test")
-	// if err != nil {
-	// 	t.Errorf("LoadConfig($directory_path) has some error to load")
-	// }
-	// var in, expected string
-	// in = "./conf/twitter.conf.test"
-	// expected = "ConsumerKey"
-	// fmt.Println(s.ConsumerKey)
-	// if s.ConsumerKey != expected {
-	// 	t.Errorf("LoadConfig(%s) = TwitterSecret.%s, want %s", in, s, expected)
-	// }
-	// expected = "ConsumerSecret"
-	// if s.ConsumerSecret != expected {
-	// 	t.Errorf("LoadConfig(%s) = TwitterSecret.%s, want %s", in, s, expected)
-	// }
-	// expected = "AccessToken"
-	// if s.AccessToken != expected {
-	// 	t.Errorf("LoadConfig(%s) = TwitterSecret.%s, want %s", in, s, expected)
-	// }
-	// expected = "AccessToken"
-	// if s.AccessToken != expected {
-	// 	t.Errorf("LoadConfig(%s) = TwitterSecret.%s, want %s", in, s, expected)
-	// }
+func Test_GetTwitterSecret_Normal(t *testing.T) {
+	s, err := GetTwitterSecret("./conf/twitter.conf.test")
+	if err != nil {
+		t.Errorf("LoadConfig($directory_path) has some error to load")
+	}
+	assert.Equal(t, "AAAAAA", s.ConsumerKey)
+	assert.Equal(t, "BBBBBB", s.ConsumerSecret)
+	assert.Equal(t, "CCCCCC", s.AccessToken)
+	assert.Equal(t, "DDDDDD", s.AccessSecret)
 }
+
+func Test_GetTwitterSecret_Abnormal_InvalidFileName(t *testing.T) {
+	var expectedTwitterSecret TwitterSecret
+	s, err := GetTwitterSecret("./conf/twitter.conf.test.notfound")
+	assert.Equal(t, expectedTwitterSecret, s)
+	assert.NotNil(t, err)
+	assert.Equal(t, "open ./conf/twitter.conf.test.notfound: no such file or directory", err.Error())
+}
+
+func Test_GetTwitterSecret_Abnormal_InvalidFileFormat(t *testing.T) {
+	var expectedTwitterSecret TwitterSecret
+	s, err := GetTwitterSecret("./conf/twitter.conf.test.invalid")
+	assert.Equal(t, expectedTwitterSecret, s)
+	assert.NotNil(t, err)
+	assert.Equal(t, "invalid character 'a' looking for beginning of value", err.Error())
+}
+
 
 func testLoadConfig(t *testing.T, in string, expected TwitterSecret) {
 	// s := LoadConfig("./secret/twitter.conf.test")

@@ -12,13 +12,10 @@ func GetTwitterSecret(path string) (TwitterSecret, error) {
 	var twitterSecret TwitterSecret
 	bytes, err := ioutil.ReadFile(path)
     if err != nil {
-        log.Fatal(err)
 		return twitterSecret, err
     }
-    if err := json.Unmarshal(bytes, &twitterSecret); err != nil {
-        log.Fatal(err)
-    }
-	return twitterSecret, err
+    err2 := json.Unmarshal(bytes, &twitterSecret)
+	return twitterSecret, err2
 }
 
 func getMongoConf(path string) (MongoConf, error) {
