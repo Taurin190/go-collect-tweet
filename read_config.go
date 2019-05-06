@@ -1,7 +1,6 @@
 package collect_tweet
 
 import (
-	"log"
 	"time"
 	"encoding/json"
 	"io/ioutil"
@@ -10,38 +9,35 @@ import (
 
 func GetTwitterSecret(path string) (TwitterSecret, error) {
 	var twitterSecret TwitterSecret
-	bytes, err := ioutil.ReadFile(path)
-    if err != nil {
-		return twitterSecret, err
+	bytes, err_io := ioutil.ReadFile(path)
+    if err_io != nil {
+		return twitterSecret, err_io
     }
-    err2 := json.Unmarshal(bytes, &twitterSecret)
-	return twitterSecret, err2
+    err_json := json.Unmarshal(bytes, &twitterSecret)
+	return twitterSecret, err_json
 }
 
 func getMongoConf(path string) (MongoConf, error) {
-	var conf MongoConf
-	bytes, err := ioutil.ReadFile(path)
-    if err != nil {
-        log.Fatal(err)
-		return conf, err
+	var mongoConf MongoConf
+	bytes, err_io := ioutil.ReadFile(path)
+    if err_io != nil {
+		return mongoConf, err_io
     }
-    if err := json.Unmarshal(bytes, &conf); err != nil {
-        log.Fatal(err)
-    }
-	return conf, err
+    err_json := json.Unmarshal(bytes, &mongoConf)
+	return mongoConf, err_json
 }
 
-func GetMongoInfo(config_path string) (*mgo.DialInfo, error) {
-	conf, err := getMongoConf(config_path)
+func GetMongoInfo(path string) (*mgo.DialInfo, error) {
+	conf, err := getMongoConf(path)
 	if err != nil {
 		return nil, err
 	}
 	info := &mgo.DialInfo{
-        Addrs:    []string{conf.hostname},
+        Addrs:    []string{conf.Hostname},
         Timeout:  60 * time.Second,
-        Database: conf.database,
-        Username: conf.username,
-        Password: conf.password,
+        Database: conf.Database,
+        Username: conf.Username,
+        Password: conf.Password,
     }
 	return info, nil
 }

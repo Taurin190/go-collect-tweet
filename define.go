@@ -8,11 +8,11 @@ type TwitterSecret struct {
 }
 
 type MongoConf struct {
-	hostname string `JSON:"hostname"`
-	database string `JSON:"database"`
-	collection string `JSON:"collection"`
-	username string `JSON:"username"`
-	password string `JSON:"password"`
+	Hostname string `JSON:"hostname"`
+	Database string `JSON:"database"`
+	Collection string `JSON:"collection"`
+	Username string `JSON:"username"`
+	Password string `JSON:"password"`
 }
 
 const TWEET_CONF string = "./conf/twitter.conf"
