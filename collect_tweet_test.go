@@ -2,10 +2,11 @@ package collect_tweet
 
 import (
 	"fmt"
-	"time"
 	"testing"
-	"gopkg.in/mgo.v2"
+	"time"
+
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/mgo.v2"
 )
 
 func Test_GetTwitterSecret_Normal(t *testing.T) {
@@ -62,14 +63,4 @@ func Test_GetMongoInfo_Abnormal_InvalidFileFormat(t *testing.T) {
 	assert.Equal(t, expectedMongoInfo, s)
 	assert.NotNil(t, err)
 	assert.Equal(t, "invalid character 'a' looking for beginning of value", err.Error())
-}
-
-func testTweetData(t *testing.T, in, expected string) {
-	// s := TweetData("aa")
-	// // if err != nil {
-	// // 	log.Fatalf("err: %s", err)
-	// // }
-	// if s != expected {
-	// 	t.Errorf("LoadConfig(%s) = %s, want %s", in, s, expected)
-	// }
 }
