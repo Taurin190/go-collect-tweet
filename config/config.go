@@ -1,4 +1,4 @@
-package collect_tweet
+package config
 
 import (
 	"encoding/json"
@@ -12,6 +12,14 @@ Config structure includes MongoDB and Twitter
 type Config struct {
 	MongoDB
 	Twitter
+}
+
+/*
+ConfigPath structure that set where to read configration
+*/
+type ConfigPath struct {
+	MongoDBConfigPath string
+	TwitterConfigPath string
 }
 
 /*
@@ -38,9 +46,9 @@ type Twitter struct {
 /*
 GetConfig of structure of config type
 */
-func GetConfig() *Config {
-	twitterConfig, errTwitter := getTwitterConfig("../conf/twitter.conf")
-	mongoConfig, errMongo := getMongoConfig("../conf/mongo.conf")
+func GetConfig(path ConfigPath) *Config {
+	twitterConfig, errTwitter := getTwitterConfig(path.TwitterConfigPath)
+	mongoConfig, errMongo := getMongoConfig(path.MongoDBConfigPath)
 	if errTwitter != nil {
 		log.Fatal(errTwitter)
 	}
