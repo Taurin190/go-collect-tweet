@@ -1,4 +1,4 @@
-package collect_tweet
+package test
 
 import (
 	"testing"
