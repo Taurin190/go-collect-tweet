@@ -9,11 +9,13 @@ type TweetRepository interface {
 }
 
 type tweetRepository struct {
-	config config.Config
+	Config *config.Config
 }
 
-func GetTweetRepository() TweetRepository {
-	return &tweetRepository{}
+func GetTweetRepository(c *config.Config) TweetRepository {
+	return &tweetRepository{
+		Config: c,
+	}
 }
 
 func (repository *tweetRepository) Insert(tweet entity.Tweet) error {
