@@ -3,14 +3,14 @@ package collect_tweet
 import (
 	"testing"
 
-	"./config"
+	"../config"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_GetConfig_Normal(t *testing.T) {
 	path := config.ConfigPath{
-		MongoDBConfigPath: "./conf/mongo.conf",
-		TwitterConfigPath: "./conf/twitter.conf.test",
+		MongoDBConfigPath: "../conf/mongo.conf",
+		TwitterConfigPath: "../conf/twitter.conf.test",
 	}
 	config := config.GetConfig(path)
 	assert.Equal(t, "AAAAAA", config.Twitter.ConsumerKey)
