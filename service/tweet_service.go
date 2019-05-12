@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"../entity"
 	"../outer"
 	"../repository"
@@ -23,7 +25,7 @@ func GetTweetService(r repository.TweetRepository, o outer.TweetOuterAPI) TweetS
 type tweetService struct {
 	Repository repository.TweetRepository
 	OuterAPI   outer.TweetOuterAPI
-	Tweets     entity.Tweet
+	Tweets     []entity.Tweet
 }
 
 func (service *tweetService) Exec() (string, error) {
@@ -47,13 +49,26 @@ func (service *tweetService) Exec() (string, error) {
 }
 
 func (service *tweetService) setTweetsFromOuterAPI() (string, error) {
-	return "", nil
+	tweets, err := service.OuterAPI.GetTweets()
+	if err != nil {
+		return "", err
+	}
+	service.Tweets = tweets
+	return "Success: Get Tweets from Twitter API", nil
 }
 
 func (service *tweetService) setupRepository() (string, error) {
-	return "", nil
+	err := service.Repository.SetupRepository()
+	if err != nil {
+		return "", err
+	}
+	return "Success: Setup Repository", nil
 }
 
 func (service *tweetService) insertTweets() (string, error) {
-	return "", nil
+	count, err := service.Repository.Insert(service.Tweets)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("Success: Insert %d of Tweet", count), nil
 }

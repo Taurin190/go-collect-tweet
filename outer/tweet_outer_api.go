@@ -6,6 +6,7 @@ import (
 )
 
 type TweetOuterAPI interface {
+	GetTweets() ([]entity.Tweet, error)
 }
 
 type tweetOuterAPI struct {
@@ -18,7 +19,7 @@ func GetTweetOuterAPI(c *config.Config) TweetOuterAPI {
 	}
 }
 
-func (outerAPI *tweetOuterAPI) GetTweet() (entity.Tweet, error) {
-	var tweet entity.Tweet
-	return tweet, nil
+func (outerAPI *tweetOuterAPI) GetTweets() ([]entity.Tweet, error) {
+	var tweets []entity.Tweet
+	return tweets, nil
 }
