@@ -17,4 +17,10 @@ func Test_GetConfig_Normal(t *testing.T) {
 	assert.Equal(t, "BBBBBB", config.Twitter.ConsumerSecret)
 	assert.Equal(t, "CCCCCC", config.Twitter.AccessToken)
 	assert.Equal(t, "DDDDDD", config.Twitter.AccessSecret)
+
+	assert.Equal(t, "localhost", config.MongoDB.Hostname)
+	assert.Equal(t, "twitter", config.MongoDB.Database)
+	assert.Equal(t, "tweet", config.MongoDB.Collection)
+	assert.Equal(t, "root", config.MongoDB.Username)
+	assert.Equal(t, "root", config.MongoDB.Password)
 }

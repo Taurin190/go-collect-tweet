@@ -54,7 +54,7 @@ func (service *tweetService) setTweetsFromOuterAPI() (string, error) {
 		return "", err
 	}
 	service.Tweets = tweets
-	return "Success: Get Tweets from Twitter API", nil
+	return "Success: Get Tweets from Twitter API\n", nil
 }
 
 func (service *tweetService) setupRepository() (string, error) {
@@ -62,7 +62,7 @@ func (service *tweetService) setupRepository() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return "Success: Setup Repository", nil
+	return "Success: Setup Repository\n", nil
 }
 
 func (service *tweetService) insertTweets() (string, error) {
@@ -70,5 +70,5 @@ func (service *tweetService) insertTweets() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return fmt.Sprintf("Success: Insert %d of Tweet", count), nil
+	return fmt.Sprintf("Success: Insert %d of Tweet\n", count), nil
 }
