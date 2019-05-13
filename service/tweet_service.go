@@ -32,17 +32,17 @@ func (service *tweetService) Exec() (string, error) {
 	executionResults := ""
 	results, err := service.setTweetsFromOuterAPI()
 	if err != nil {
-		return executionResults, err
+		return "", err
 	}
 	executionResults = executionResults + results
 	results, err = service.setupRepository()
 	if err != nil {
-		return executionResults, err
+		return "", err
 	}
 	executionResults = executionResults + results
 	results, err = service.insertTweets()
 	if err != nil {
-		return executionResults, err
+		return "", err
 	}
 	executionResults = executionResults + results
 	return executionResults, nil
