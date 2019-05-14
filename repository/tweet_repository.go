@@ -1,8 +1,11 @@
 package repository
 
 import (
+	"time"
+
 	"../config"
 	"../entity"
+	"gopkg.in/mgo.v2"
 )
 
 type TweetRepository interface {
@@ -11,7 +14,8 @@ type TweetRepository interface {
 }
 
 type tweetRepository struct {
-	Config *config.Config
+	Config  *config.Config
+	Session *mgo.Session
 }
 
 func GetTweetRepository(c *config.Config) TweetRepository {
@@ -21,9 +25,35 @@ func GetTweetRepository(c *config.Config) TweetRepository {
 }
 
 func (repository *tweetRepository) SetupRepository() error {
-	return nil
+	info := repository.getDialInfo()
+	session, err := mgo.DialWithInfo(info)
+	repository.Session = session
+	defer repository.Session.Close()
+
+	return err
 }
 
 func (repository *tweetRepository) Insert(tweets []entity.Tweet) (int, error) {
-	return 0, nil
+	count := 0
+	db := repository.Session.DB(repository.Config.MongoDB.Database)
+	var err error
+	for _, tweet := range tweets {
+		err = db.C(repository.Config.MongoDB.Collection).Insert(tweet)
+		if err != nil {
+			return count, err
+		}
+		count++
+	}
+	return count, nil
+}
+
+func (repository *tweetRepository) getDialInfo() *mgo.DialInfo {
+	info := &mgo.DialInfo{
+		Addrs:    []string{repository.Config.MongoDB.Hostname},
+		Timeout:  60 * time.Second,
+		Database: repository.Config.MongoDB.Database,
+		Username: repository.Config.MongoDB.Username,
+		Password: repository.Config.MongoDB.Password,
+	}
+	return info
 }
