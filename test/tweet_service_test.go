@@ -22,16 +22,6 @@ func Test_Exec_Normal(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func Test_Exec_ErrorSetupRepository(t *testing.T) {
-	repository := getDummyTweetRepositoryErrorSetup()
-	outerAPI := getDummyTweetOuterAPI()
-	service := s.GetTweetService(repository, outerAPI)
-
-	results, err := service.Exec()
-	assert.Equal(t, "", results)
-	assert.Equal(t, "Error: Setup error", err.Error())
-}
-
 func Test_Exec_ErrorInsert(t *testing.T) {
 	repository := getDummyTweetRepositoryInsert()
 	outerAPI := getDummyTweetOuterAPI()
