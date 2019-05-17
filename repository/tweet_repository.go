@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"time"
 
 	"../config"
@@ -51,6 +50,5 @@ func (repository *tweetRepository) getDialInfo() *mgo.DialInfo {
 		Username: repository.Config.MongoDB.Username,
 		Password: repository.Config.MongoDB.Password,
 	}
-	fmt.Println(repository.Config.MongoDB)
 	return info
 }
